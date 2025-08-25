@@ -1,5 +1,8 @@
 import VerbGrid from '@/components/verbs/VerbGrid';
 import VerbConjugationDrill from '@/components/verbs/VerbConjugationDrill';
+import MagNagPatterns from '@/components/verbs/MagNagPatterns';
+import AdvancedConjugationDrill from '@/components/verbs/AdvancedConjugationDrill';
+import MagSentenceConstruction from '@/components/verbs/MagSentenceConstruction';
 import { magVerbs, magVerbRules, verbCategories, verbLearningTips } from '@/data/verbs';
 
 export default function VerbsPage() {
@@ -33,6 +36,9 @@ export default function VerbsPage() {
           </div>
         </div>
       </div>
+
+      {/* Comprehensive MAG/NAG Patterns */}
+      <MagNagPatterns />
 
       {/* Conjugation Rules Explanation */}
       <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
@@ -131,18 +137,49 @@ export default function VerbsPage() {
         <VerbGrid verbs={magVerbs.slice(0, 6)} mode="study" />
       </div>
 
-      {/* Conjugation Practice Drill */}
+      {/* Sentence Construction Practice */}
       <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-gray-100 mb-2">
-            🎯 Conjugation Practice Drill
+            📝 Sentence Construction Practice
           </h2>
           <p className="text-gray-300">
-            Test your conjugation skills with this interactive drill. You&apos;ll practice all four tenses randomly.
+            Apply your MAG verb knowledge by building, completing, and transforming sentences. Practice real-world usage patterns!
           </p>
         </div>
         
-        <VerbConjugationDrill verbs={magVerbs} />
+        <MagSentenceConstruction />
+      </div>
+
+      {/* Practice Drills */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Basic Conjugation Practice */}
+        <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-100 mb-2">
+              🎯 Basic Conjugation Drill
+            </h2>
+            <p className="text-gray-300">
+              Test your conjugation skills with this interactive drill. Perfect for beginners!
+            </p>
+          </div>
+          
+          <VerbConjugationDrill verbs={magVerbs.slice(0, 8)} />
+        </div>
+
+        {/* Advanced Conjugation Practice */}
+        <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-100 mb-2">
+              🔥 Advanced Pattern Drill
+            </h2>
+            <p className="text-gray-300">
+              Challenge yourself with tense identification, sentence completion, and pattern recognition!
+            </p>
+          </div>
+          
+          <AdvancedConjugationDrill />
+        </div>
       </div>
 
       {/* Learning Tips */}

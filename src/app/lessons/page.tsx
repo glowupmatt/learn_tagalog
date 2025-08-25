@@ -23,7 +23,7 @@ const lessons = [
     id: 'verbs',
     title: 'Part 3: MAG Verb Conjugations',
     description: 'Master the most common verb conjugation patterns in Tagalog.',
-    status: 'coming-soon',
+    status: 'available',
     difficulty: 'Intermediate',
     duration: '30 min',
     icon: '⚡'
@@ -32,7 +32,7 @@ const lessons = [
     id: 'vocabulary',
     title: 'Part 4: Essential Vocabulary',
     description: 'Learn the top 100 most frequently used Tagalog words.',
-    status: 'coming-soon',
+    status: 'available',
     difficulty: 'Beginner',
     duration: '20 min',
     icon: '📚'
@@ -57,14 +57,14 @@ export default function LessonsPage() {
       <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-100">Your Progress</h2>
-          <div className="text-sm text-gray-400">2 of 4 lessons available</div>
+          <div className="text-sm text-gray-400">4 of 4 lessons available</div>
         </div>
         <div className="w-full bg-gray-700 rounded-full h-3 mb-2">
-          <div className="bg-blue-500 h-3 rounded-full" style={{ width: '25%' }} />
+          <div className="bg-blue-500 h-3 rounded-full" style={{ width: '100%' }} />
         </div>
         <div className="flex justify-between text-sm text-gray-400">
-          <span>Just getting started</span>
-          <span>25% complete</span>
+          <span>All lessons unlocked!</span>
+          <span>100% complete</span>
         </div>
       </div>
 
@@ -127,6 +127,22 @@ export default function LessonsPage() {
                     {lesson.id === 'particles' && (
                       <Link
                         href="/lessons/particles"
+                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors shadow-lg"
+                      >
+                        Start Lesson
+                      </Link>
+                    )}
+                    {lesson.id === 'verbs' && (
+                      <Link
+                        href="/lessons/verbs"
+                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors shadow-lg"
+                      >
+                        Start Lesson
+                      </Link>
+                    )}
+                    {lesson.id === 'vocabulary' && (
+                      <Link
+                        href="/lessons/vocabulary"
                         className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors shadow-lg"
                       >
                         Start Lesson
