@@ -1,8 +1,41 @@
 @import "tailwindcss";
 
+/* Filipino-inspired dark theme colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark background inspired by Philippine nights */
+  --background: #0f1419;
+  --foreground: #e5e7eb;
+  
+  /* Primary blues - inspired by Philippine seas */
+  --blue-50: #1e3a5f;
+  --blue-100: #1e40af;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  
+  /* Warm golds - inspired by Philippine sunset */
+  --gold-400: #fbbf24;
+  --gold-500: #f59e0b;
+  --gold-600: #d97706;
+  
+  /* Greens - inspired by Philippine forests */
+  --green-400: #34d399;
+  --green-500: #10b981;
+  --green-600: #059669;
+  
+  /* Surface colors */
+  --surface: #1a202c;
+  --surface-light: #2d3748;
+  --surface-lighter: #4a5568;
+  
+  /* Text colors */
+  --text-primary: #f7fafc;
+  --text-secondary: #e2e8f0;
+  --text-muted: #a0aec0;
+  
+  /* Accent colors */
+  --accent-orange: #ff7849;
+  --accent-purple: #805ad5;
 }
 
 @theme inline {
@@ -10,17 +43,41 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  
+  /* Custom dark theme colors */
+  --color-surface: var(--surface);
+  --color-surface-light: var(--surface-light);
+  --color-surface-lighter: var(--surface-lighter);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-blue-primary: var(--blue-500);
+  --color-green-primary: var(--green-500);
+  --color-gold-primary: var(--gold-500);
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-purple: var(--accent-purple);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Scrollbar styling for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-lighter);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
