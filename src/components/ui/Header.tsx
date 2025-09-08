@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { LocalStorageManager } from '@/lib/storage';
 import { initializeAudio } from '@/lib/audio';
+import MobileMenu from './MobileMenu';
 
 export default function Header() {
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -24,12 +26,30 @@ export default function Header() {
     LocalStorageManager.updateSetting('audioEnabled', newAudioEnabled);
   };
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+  }, []);
+
   if (!mounted) {
     return (
       <header className="bg-gray-800 shadow-lg border-b border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
+              {/* Mobile Menu Button - disabled when not mounted */}
+              <button
+                disabled
+                className="md:hidden p-2 rounded-lg text-gray-600 cursor-not-allowed"
+                aria-label="Toggle menu"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
               <Link href="/" className="text-2xl font-bold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer">
                 🇵🇭 Tagalog Study
               </Link>
@@ -46,6 +66,26 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Title */}
           <div className="flex items-center space-x-4">
+            {/* Mobile Menu Button */}
+            <button
+              onClick={toggleMobileMenu}
+              className={`md:hidden p-2 rounded-lg transition-colors ${
+                mobileMenuOpen 
+                  ? 'text-blue-400 bg-blue-900 hover:bg-blue-800' 
+                  : 'text-gray-400 hover:bg-gray-700'
+              }`}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {mobileMenuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
             <Link href="/" className="text-2xl font-bold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer">
               🇵🇭 Tagalog Study
             </Link>
@@ -99,6 +139,9 @@ export default function Header() {
           </div>
         </div>
       </div>
+      
+      {/* Mobile Menu */}
+      <MobileMenu isOpen={mobileMenuOpen} onClose={closeMobileMenu} />
     </header>
   );
 }
