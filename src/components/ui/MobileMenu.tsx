@@ -132,7 +132,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       
       {/* Mobile Menu Panel */}
       <div 
-        className={`fixed left-0 top-16 bottom-0 w-80 bg-gray-800 shadow-lg border-r border-gray-700 z-50 md:hidden flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`fixed left-0 top-16 h-[calc(100vh-4rem)] w-full max-w-sm bg-gray-800 shadow-lg border-r border-gray-700 z-50 md:hidden flex flex-col transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -156,7 +156,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           WebkitOverflowScrolling: 'touch'
         }}>
           {/* Navigation Items */}
-          <div className="p-4">
+          <div className="p-3 sm:p-4">
             <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wide mb-4">
               Navigation
             </h3>
@@ -167,7 +167,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                      className={`flex items-center space-x-3 px-3 py-2.5 sm:px-4 sm:py-3 rounded-lg transition-colors ${
                         isActive
                           ? 'bg-blue-900 text-blue-400 font-medium'
                           : 'text-gray-300 hover:bg-gray-700 hover:text-white'
@@ -184,7 +184,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
 
           {/* Quick Stats */}
-          <div className="p-4 border-t border-gray-700 mt-6">
+          <div className="p-3 sm:p-4 border-t border-gray-700 mt-6">
             <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wide mb-3">
               Quick Stats
             </h3>
@@ -220,7 +220,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
 
           {/* Progress Bar */}
-          <div className="p-4 border-t border-gray-700 mb-4">
+          <div className="p-3 sm:p-4 border-t border-gray-700 mb-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm text-gray-400">Overall Progress</span>
               <span className="text-sm font-medium text-blue-400">25%</span>

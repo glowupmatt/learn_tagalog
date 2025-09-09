@@ -66,19 +66,32 @@ export default function VocabularyGrid({ words, mode = 'study', onWordClick }: V
         return (
           <div
             key={word.id}
-            className={`relative h-40 cursor-pointer transition-all duration-300 hover:scale-105 ${
+            className={`relative h-52 cursor-pointer transition-all duration-300 hover:scale-105 ${
               mode === 'study' ? 'hover:shadow-lg' : ''
             }`}
             onClick={() => handleCardClick(word)}
+            style={{ perspective: '1000px' }}
           >
-            <div className={`absolute inset-0 w-full h-full rounded-lg border-2 transition-all duration-500 ${
-              getDifficultyColor(word.difficulty)
-            } ${isFlipped ? 'transform rotate-y-180' : ''}`}>
+            <div 
+              className={`relative w-full h-full transition-transform duration-500 transform-style-preserve-3d ${
+                isFlipped ? 'rotate-y-180' : ''
+              }`}
+              style={{ 
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
+            >
               
               {/* Front of card */}
-              <div className={`absolute inset-0 w-full h-full backface-hidden rounded-lg bg-gray-800 p-4 flex flex-col justify-between ${
-                isFlipped ? 'opacity-0' : 'opacity-100'
-              }`}>
+              <div 
+                className={`absolute inset-0 w-full h-full rounded-lg border-2 bg-gray-800 p-4 flex flex-col justify-between ${
+                  getDifficultyColor(word.difficulty)
+                }`}
+                style={{ 
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden'
+                }}
+              >
                 <div>
                   <div className="flex justify-between items-start mb-2">
                     <div className={`text-xs font-medium px-2 py-1 rounded ${getCategoryColor(word.category)}`}>
@@ -114,9 +127,16 @@ export default function VocabularyGrid({ words, mode = 'study', onWordClick }: V
               </div>
 
               {/* Back of card */}
-              <div className={`absolute inset-0 w-full h-full backface-hidden rounded-lg bg-gray-800 p-4 flex flex-col justify-between transform rotate-y-180 ${
-                isFlipped ? 'opacity-100' : 'opacity-0'
-              }`}>
+              <div 
+                className={`absolute inset-0 w-full h-full rounded-lg border-2 bg-gray-800 p-4 flex flex-col justify-between ${
+                  getDifficultyColor(word.difficulty)
+                }`}
+                style={{ 
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                  transform: 'rotateY(180deg)'
+                }}
+              >
                 <div>
                   <div className="text-center mb-3">
                     <h3 className="text-xl font-bold text-green-400 mb-2">

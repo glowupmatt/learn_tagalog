@@ -31,11 +31,11 @@ export default function RootLayout({
       >
         <div className="min-h-screen bg-gray-900">
           <Header />
-          <div className="flex">
-            <aside className="hidden md:block w-64 h-screen sticky top-16">
+          <div className="flex pt-16">
+            <aside className="hidden md:block w-64 h-[calc(100vh-4rem)] sticky top-16">
               <Navigation />
             </aside>
-            <main className="flex-1 p-6 bg-gray-900">
+            <main className="flex-1 p-6 bg-gray-900 min-h-[calc(100vh-4rem)]">
               {children}
             </main>
           </div>
