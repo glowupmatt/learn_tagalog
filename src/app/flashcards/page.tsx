@@ -59,17 +59,6 @@ export default function FlashcardsPage() {
     }
   ];
 
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: "border-blue-500 bg-blue-500/10 text-blue-400",
-      green: "border-green-500 bg-green-500/10 text-green-400",
-      purple: "border-purple-500 bg-purple-500/10 text-purple-400",
-      pink: "border-pink-500 bg-pink-500/10 text-pink-400",
-      orange: "border-orange-500 bg-orange-500/10 text-orange-400",
-      indigo: "border-indigo-500 bg-indigo-500/10 text-indigo-400"
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
 
   const getProgressPercentage = (mastered: number, total: number) => {
     return Math.round((mastered / total) * 100);

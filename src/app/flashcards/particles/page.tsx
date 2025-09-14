@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import FlashCard from '@/components/ui/FlashCard';
 import { particleFamilies, particleExamples } from '@/data/particles';
@@ -16,9 +16,7 @@ interface ParticleCard {
 
 export default function ParticlesFlashcardsPage() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [studyMode, setStudyMode] = useState<'learn' | 'review' | 'test'>('learn');
   const [showStats, setShowStats] = useState(false);
-  const [cardStats, setCardStats] = useState<Record<string, { correct: number; incorrect: number }>>({});
   const [sessionStats, setSessionStats] = useState({
     cardsStudied: 0,
     correct: 0,
@@ -34,7 +32,7 @@ export default function ParticlesFlashcardsPage() {
       family.particles.forEach(particle => {
         // Find examples for this particle
         const familyExamples = particleExamples.find(ex => ex.family === family.name);
-        const particleExamples = familyExamples?.sentences.filter(s => 
+        const particleSentences = familyExamples?.sentences.filter(s =>
           s.focusParticle === particle.form || s.focusParticle.includes(particle.form)
         ) || [];
 
@@ -42,7 +40,7 @@ export default function ParticlesFlashcardsPage() {
           id: `${family.name}-${particle.form}`,
           front: particle.form,
           back: `${particle.meaning}\n\n${particle.usage}`,
-          examples: particleExamples.slice(0, 2).map(ex => ({
+          examples: particleSentences.slice(0, 2).map(ex => ({
             tagalog: ex.tagalog,
             english: ex.english
           })),
@@ -58,16 +56,7 @@ export default function ParticlesFlashcardsPage() {
   const currentCard = cards[currentCardIndex];
 
   const handleCardResponse = (isCorrect: boolean) => {
-    const cardId = currentCard.id;
     
-    // Update card stats
-    setCardStats(prev => ({
-      ...prev,
-      [cardId]: {
-        correct: (prev[cardId]?.correct || 0) + (isCorrect ? 1 : 0),
-        incorrect: (prev[cardId]?.incorrect || 0) + (isCorrect ? 0 : 1)
-      }
-    }));
 
     // Update session stats
     setSessionStats(prev => ({
@@ -274,7 +263,7 @@ export default function ParticlesFlashcardsPage() {
           </div>
           <div>
             <h4 className="font-medium mb-1">• SA Family = Location/Direction</h4>
-            <p className="text-sm text-blue-200">Indicates where something is or where it's going</p>
+            <p className="text-sm text-blue-200">Indicates where something is or where it&apos;s going</p>
           </div>
           <div>
             <h4 className="font-medium mb-1">• Practice with Examples</h4>

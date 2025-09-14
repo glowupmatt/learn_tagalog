@@ -276,7 +276,7 @@ export default function VerbsFlashcardsPage() {
             ].map(mode => (
               <button
                 key={mode.key}
-                onClick={() => handleModeChange(mode.key as any)}
+                onClick={() => handleModeChange(mode.key as 'conjugations' | 'meanings' | 'mixed')}
                 className={`px-4 py-2 rounded-lg text-sm transition-colors ${
                   studyMode === mode.key
                     ? 'bg-purple-600 text-white'

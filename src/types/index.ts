@@ -153,7 +153,7 @@ export interface AudioPlayer {
 // Alphabet and pronunciation
 export interface Letter {
   letter: string;
-  type: 'consonant' | 'vowel';
+  type: 'consonant' | 'vowel' | 'digraph';
   pronunciation: string;
   audioUrl?: string;
   examples: string[];

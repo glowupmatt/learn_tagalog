@@ -156,7 +156,7 @@ export default function AudioPlayer({
       const timer = setTimeout(playSentence, 500);
       return () => clearTimeout(timer);
     }
-  }, [words, autoPlay]);
+  }, [words, autoPlay, playSentence]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -165,7 +165,6 @@ export default function AudioPlayer({
     };
   }, []);
 
-  const sentenceText = words.map(word => word.tagalog).join(' ');
   const englishTranslation = words.map(word => word.english).join(' ');
 
   return (

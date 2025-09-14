@@ -48,9 +48,9 @@ export default function AlphabetFlashcardsPage() {
           id: `${letter.letter}-pronunciation`,
           front: letter.letter.toUpperCase(),
           back: letter.pronunciation,
-          examples: letter.exampleWords.slice(0, 2).map(word => ({
-            tagalog: word.tagalog,
-            english: word.english
+          examples: letter.examples.slice(0, 2).map(word => ({
+            tagalog: word,
+            english: word
           })),
           type: letter.type as 'consonant' | 'vowel' | 'digraph',
           difficulty: 1
@@ -61,22 +61,22 @@ export default function AlphabetFlashcardsPage() {
           id: `${letter.letter}-letter`,
           front: `"${letter.pronunciation}"`,
           back: letter.letter.toUpperCase(),
-          examples: letter.exampleWords.slice(0, 2).map(word => ({
-            tagalog: word.tagalog,
-            english: word.english
+          examples: letter.examples.slice(0, 2).map(word => ({
+            tagalog: word,
+            english: word
           })),
           type: letter.type as 'consonant' | 'vowel' | 'digraph',
           difficulty: 2
         });
       } else {
         // Show example word, ask for first letter/sound
-        letter.exampleWords.forEach((word, index) => {
+        letter.examples.forEach((word, index) => {
           if (index < 2) { // Limit to 2 words per letter
             cards.push({
               id: `${letter.letter}-word-${index}`,
-              front: word.tagalog,
-              back: `${word.english}\n\nStarts with: ${letter.letter.toUpperCase()} (${letter.pronunciation})`,
-              examples: [{ tagalog: word.tagalog, english: word.english }],
+              front: word,
+              back: `${word}\n\nStarts with: ${letter.letter.toUpperCase()} (${letter.pronunciation})`,
+              examples: [{ tagalog: word, english: word }],
               type: letter.type as 'consonant' | 'vowel' | 'digraph',
               difficulty: 3
             });
@@ -283,7 +283,7 @@ export default function AlphabetFlashcardsPage() {
             ].map(mode => (
               <button
                 key={mode.key}
-                onClick={() => handleModeChange(mode.key as any)}
+                onClick={() => handleModeChange(mode.key as 'letters' | 'sounds' | 'words')}
                 className={`px-4 py-2 rounded-lg text-sm transition-colors ${
                   studyMode === mode.key
                     ? 'bg-orange-600 text-white'
@@ -408,7 +408,7 @@ export default function AlphabetFlashcardsPage() {
           </div>
           <div>
             <h4 className="font-medium mb-1">• NG is One Sound</h4>
-            <p className="text-sm text-orange-200">Like "ng" in "sing", not "n" + "g"</p>
+            <p className="text-sm text-orange-200">Like &ldquo;ng&rdquo; in &ldquo;sing&rdquo;, not &ldquo;n&rdquo; + &ldquo;g&rdquo;</p>
           </div>
           <div>
             <h4 className="font-medium mb-1">• Practice with Words</h4>
