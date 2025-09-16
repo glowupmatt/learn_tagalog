@@ -90,33 +90,6 @@ export default function FlashcardsPage() {
           </p>
         </div>
 
-        {/* Study Stats */}
-        <div className="bg-gray-800 rounded-lg p-4 sm:p-6 border border-gray-700 mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3 sm:mb-4">Study Statistics</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold text-blue-400">{stats.totalCards}</div>
-              <div className="text-xs sm:text-sm text-gray-400">Total Cards</div>
-            </div>
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold text-green-400">{stats.masteredCards}</div>
-              <div className="text-xs sm:text-sm text-gray-400">Mastered</div>
-            </div>
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold text-yellow-400">{stats.reviewCards}</div>
-              <div className="text-xs sm:text-sm text-gray-400">Review Due</div>
-            </div>
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold text-purple-400">{stats.newCards}</div>
-              <div className="text-xs sm:text-sm text-gray-400">New Cards</div>
-            </div>
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold text-orange-400">{stats.studyStreak}</div>
-              <div className="text-xs sm:text-sm text-gray-400">Day Streak</div>
-            </div>
-          </div>
-        </div>
-
         {/* Quick Actions */}
         <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-lg p-4 sm:p-6 border border-blue-700 mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row items-center justify-between">
