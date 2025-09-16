@@ -53,21 +53,6 @@ export default function LessonsPage() {
         </p>
       </div>
 
-      {/* Progress Overview */}
-      <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-100">Your Progress</h2>
-          <div className="text-sm text-gray-400">4 of 4 lessons available</div>
-        </div>
-        <div className="w-full bg-gray-700 rounded-full h-3 mb-2">
-          <div className="bg-blue-500 h-3 rounded-full" style={{ width: '100%' }} />
-        </div>
-        <div className="flex justify-between text-sm text-gray-400">
-          <span>All lessons unlocked!</span>
-          <span>100% complete</span>
-        </div>
-      </div>
-
       {/* Lessons Grid */}
       <div className="space-y-4">
         {lessons.map((lesson) => (

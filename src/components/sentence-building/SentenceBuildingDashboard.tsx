@@ -92,26 +92,6 @@ export default function SentenceBuildingDashboard() {
           <p className="text-xl text-gray-300 mb-6">
             Master Tagalog sentence structure with interactive drag-and-drop exercises
           </p>
-          
-          {/* Progress Overview */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="text-2xl font-bold text-blue-400">{stats.completed}</div>
-              <div className="text-sm text-gray-400">Completed</div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="text-2xl font-bold text-green-400">{stats.attempted}</div>
-              <div className="text-sm text-gray-400">Attempted</div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="text-2xl font-bold text-yellow-400">{stats.averageScore}%</div>
-              <div className="text-sm text-gray-400">Avg Score</div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="text-2xl font-bold text-purple-400">{Math.round((stats.completed / stats.total) * 100)}%</div>
-              <div className="text-sm text-gray-400">Progress</div>
-            </div>
-          </div>
 
           {/* Action Buttons */}
           <div className="flex justify-center space-x-4">
