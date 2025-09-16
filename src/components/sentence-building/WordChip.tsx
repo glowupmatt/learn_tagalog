@@ -1,37 +1,18 @@
 'use client';
 
-import { useDraggable } from '@dnd-kit/core';
 import { WordComponent } from '@/data/sentence-building';
 
 interface WordChipProps {
-  id: string;
   word: WordComponent;
-  isDragging?: boolean;
   onClick?: () => void;
   showClickHint?: boolean;
 }
 
-export function WordChip({ 
-  id, 
-  word, 
-  isDragging = false, 
+export function WordChip({
+  word,
   onClick,
-  showClickHint = false 
+  showClickHint = false
 }: WordChipProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    isDragging: isActiveDragging
-  } = useDraggable({
-    id,
-    disabled: false
-  });
-
-  const style = transform ? {
-    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-  } : undefined;
 
   const getTypeColor = (type: WordComponent['type']) => {
     switch (type) {
@@ -80,22 +61,19 @@ export function WordChip({
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...listeners}
-      {...attributes}
+    <button
       onClick={onClick}
       className={`
         inline-flex items-center space-x-2 px-3 py-2 md:px-4 md:py-3 rounded-lg text-white font-medium text-sm
-        ${onClick ? 'cursor-pointer hover:cursor-pointer' : 'cursor-grab active:cursor-grabbing'} 
+        cursor-pointer hover:cursor-pointer
         select-none transition-all duration-150 min-h-12 md:min-h-auto
         ${getTypeColor(word.type)}
-        ${isActiveDragging || isDragging ? 'opacity-60 scale-90 rotate-3' : 'opacity-100 scale-100'}
+        opacity-100 scale-100
         shadow-lg hover:shadow-xl transform hover:scale-110 hover:-translate-y-1
         border-2 border-white border-opacity-20 hover:border-opacity-40
         touch-manipulation
-        ${onClick ? 'hover:ring-2 hover:ring-white hover:ring-opacity-50 active:scale-95' : ''}
+        hover:ring-2 hover:ring-white hover:ring-opacity-50 active:scale-95
+        disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-lg
       `}
     >
       <span className="text-xs">{getTypeIcon(word.type)}</span>
@@ -104,6 +82,6 @@ export function WordChip({
       {showClickHint && (
         <span className="text-xs opacity-60 ml-1">👆</span>
       )}
-    </div>
+    </button>
   );
 }

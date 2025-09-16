@@ -60,14 +60,6 @@ export default function Header() {
 
             {/* Controls */}
             <div className="flex items-center space-x-4">
-              {/* Progress Indicator Placeholder */}
-              <div className="hidden md:flex items-center space-x-2">
-                <div className="w-32 bg-gray-700 rounded-full h-2">
-                  <div className="bg-blue-500 h-2 rounded-full w-1/4"></div>
-                </div>
-                <span className="text-sm text-gray-300">25%</span>
-              </div>
-
               {/* Audio Toggle - disabled when not mounted */}
               <button
                 disabled
@@ -135,14 +127,6 @@ export default function Header() {
 
           {/* Controls */}
           <div className="flex items-center space-x-4">
-            {/* Progress Indicator Placeholder */}
-            <div className="hidden md:flex items-center space-x-2">
-              <div className="w-32 bg-gray-700 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full w-1/4"></div>
-              </div>
-              <span className="text-sm text-gray-300">25%</span>
-            </div>
-
             {/* Audio Toggle */}
             <button
               onClick={toggleAudio}

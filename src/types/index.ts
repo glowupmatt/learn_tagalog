@@ -1,15 +1,5 @@
 // Core interfaces for the Tagalog Study App
 
-export interface StudySession {
-  id: string;
-  userId: string;
-  lessonId: string;
-  completedAt: Date;
-  accuracy: number;
-  timeSpent: number;
-  mistakes: string[];
-}
-
 export interface Example {
   tagalog: string;
   english: string;
@@ -51,21 +41,6 @@ export interface Lesson {
   content: LessonContent;
   exercises: Exercise[];
   prerequisites: string[];
-}
-
-export interface UserProgress {
-  totalStudyTime: number;
-  lessonsCompleted: number;
-  currentStreak: number;
-  longestStreak: number;
-  accuracy: {
-    particles: number;
-    verbs: number;
-    vocabulary: number;
-    overall: number;
-  };
-  weakAreas: string[];
-  nextReview: Date;
 }
 
 export interface VerbConjugation {
@@ -126,22 +101,7 @@ export interface ParticleFamily {
 // Settings and Configuration
 export interface AppSettings {
   audioEnabled: boolean;
-  gamificationMode: boolean;
   preferredDifficulty: 'beginner' | 'intermediate' | 'advanced';
-  dailyGoal: number;
-}
-
-export interface ProgressData {
-  completedLessons: string[];
-  flashcardProgress: Record<string, number>;
-  studySessions: StudySession[];
-  achievements: string[];
-}
-
-export interface StudyData {
-  reviewQueue: string[];
-  masteredCards: string[];
-  difficultCards: string[];
 }
 
 // Audio Player types

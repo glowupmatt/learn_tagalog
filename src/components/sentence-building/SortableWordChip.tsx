@@ -1,37 +1,24 @@
 'use client';
 
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { WordComponent } from '@/data/sentence-building';
 
 interface SortableWordChipProps {
-  id: string;
   word: WordComponent;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
   onRemove: () => void;
-  isDragOverlay?: boolean;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
 }
 
-export function SortableWordChip({ 
-  id, 
-  word, 
-  onRemove 
+export function SortableWordChip({
+  word,
+  canMoveUp,
+  canMoveDown,
+  onRemove,
+  onMoveUp,
+  onMoveDown
 }: SortableWordChipProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging
-  } = useSortable({ 
-    id,
-    disabled: false
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
 
   const getTypeColor = (type: WordComponent['type']) => {
     switch (type) {
@@ -80,32 +67,56 @@ export function SortableWordChip({
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className={`
-        inline-flex items-center space-x-2 px-3 py-2 md:px-4 md:py-3 rounded-lg text-white font-medium text-sm
-        cursor-grab active:cursor-grabbing select-none transition-all duration-150 min-h-12 md:min-h-auto
-        ${getTypeColor(word.type)}
-        ${isDragging ? 'opacity-60 scale-90 rotate-2 z-50' : 'opacity-100 scale-100'}
-        shadow-lg hover:shadow-xl transform hover:scale-110 hover:-translate-y-1 relative group
-        border-2 border-white border-opacity-20 hover:border-opacity-40
-        touch-manipulation
-      `}
-    >
+    <div className={`
+      inline-flex items-center space-x-1 px-3 py-2 md:px-4 md:py-3 rounded-lg text-white font-medium text-sm
+      select-none transition-all duration-150 min-h-12 md:min-h-auto
+      ${getTypeColor(word.type)}
+      opacity-100 scale-100
+      shadow-lg hover:shadow-xl relative group
+      border-2 border-white border-opacity-20 hover:border-opacity-40
+      touch-manipulation
+    `}>
+      {/* Move Up Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onMoveUp();
+        }}
+        disabled={!canMoveUp}
+        className="opacity-60 group-hover:opacity-100 hover:bg-blue-500 hover:bg-opacity-30 rounded-full p-1 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+        title="Move left"
+      >
+        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+        </svg>
+      </button>
+
       <span className="text-xs">{getTypeIcon(word.type)}</span>
       <span className="font-medium">{word.tagalog}</span>
       <span className="text-xs opacity-75">({word.english})</span>
-      
+
+      {/* Move Down Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onMoveDown();
+        }}
+        disabled={!canMoveDown}
+        className="opacity-60 group-hover:opacity-100 hover:bg-blue-500 hover:bg-opacity-30 rounded-full p-1 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+        title="Move right"
+      >
+        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+        </svg>
+      </button>
+
       {/* Remove button */}
       <button
         onClick={(e) => {
           e.stopPropagation();
           onRemove();
         }}
-        className="ml-2 opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:bg-opacity-30 rounded-full p-1 transition-all duration-200"
+        className="opacity-60 group-hover:opacity-100 hover:bg-red-500 hover:bg-opacity-30 rounded-full p-1 transition-all duration-200"
         title="Remove from sentence"
       >
         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">

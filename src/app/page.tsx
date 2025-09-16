@@ -30,36 +30,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Learning Progress Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold text-gray-100">Current Streak</h3>
-            <span className="text-2xl">🔥</span>
-          </div>
-          <div className="text-3xl font-bold text-orange-400">3 days</div>
-          <p className="text-gray-400 text-sm">Keep it up!</p>
-        </div>
-        
-        <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold text-gray-100">Overall Accuracy</h3>
-            <span className="text-2xl">🎯</span>
-          </div>
-          <div className="text-3xl font-bold text-green-400">85%</div>
-          <p className="text-gray-400 text-sm">Great progress!</p>
-        </div>
-        
-        <div className="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold text-gray-100">Lessons Complete</h3>
-            <span className="text-2xl">📚</span>
-          </div>
-          <div className="text-3xl font-bold text-blue-400">2/12</div>
-          <p className="text-gray-400 text-sm">Just getting started</p>
-        </div>
-      </div>
-
       {/* Featured Content: Tagalog Alphabet */}
       <div className="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
         <div className="mb-6">

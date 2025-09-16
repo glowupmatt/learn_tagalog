@@ -44,7 +44,7 @@ export default function InteractivePractice({ initialType = 'alphabet' }: Intera
 
   // If in review mode, show ReviewQueue component
   if (cardMode === 'review') {
-    return <ReviewQueue category={practiceType} onComplete={() => setCardMode('study')} />;
+    return <ReviewQueue category={practiceType} />;
   }
 
   const handleNext = () => {

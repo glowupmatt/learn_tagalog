@@ -1,12 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { DndContext, closestCenter, DragEndEvent, DragStartEvent, DragOverlay } from '@dnd-kit/core';
-import { arrayMove, SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { WordComponent, SentenceExercise } from '@/data/sentence-building';
 import { SortableWordChip } from './SortableWordChip';
 import { WordChip } from './WordChip';
-import { DropZone } from './DropZone';
 import AudioPlayer from './AudioPlayer';
 import TouchInstructions from './TouchInstructions';
 
@@ -27,7 +24,6 @@ export default function SentenceBuilder({
 }: SentenceBuilderProps) {
   const [sentenceWords, setSentenceWords] = useState<string[]>([]);
   const [availableWords, setAvailableWords] = useState<string[]>(exercise.availableWords);
-  const [activeId, setActiveId] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [feedback, setFeedback] = useState<{
     isCorrect: boolean;
@@ -40,51 +36,12 @@ export default function SentenceBuilder({
     setAvailableWords(exercise.availableWords);
     setIsSubmitted(false);
     setFeedback(null);
-    setActiveId(null);
   }, [exercise.id, exercise.availableWords]);
 
   const getWordData = (wordId: string): WordComponent | undefined => {
     return vocabulary.find(w => w.id === wordId);
   };
 
-  const handleDragStart = (event: DragStartEvent) => {
-    setActiveId(event.active.id as string);
-  };
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    setActiveId(null);
-
-    if (!over) return;
-
-    const activeWordId = active.id as string;
-    const overId = over.id as string;
-
-    // Moving from available words to sentence
-    if (overId === 'sentence-drop-zone') {
-      if (availableWords.includes(activeWordId)) {
-        setSentenceWords(prev => [...prev, activeWordId]);
-        setAvailableWords(prev => prev.filter(id => id !== activeWordId));
-      }
-      return;
-    }
-
-    // Moving from sentence back to available words
-    if (overId === 'available-words') {
-      if (sentenceWords.includes(activeWordId)) {
-        setSentenceWords(prev => prev.filter(id => id !== activeWordId));
-        setAvailableWords(prev => [...prev, activeWordId]);
-      }
-      return;
-    }
-
-    // Reordering within sentence
-    if (sentenceWords.includes(activeWordId) && sentenceWords.includes(overId)) {
-      const oldIndex = sentenceWords.indexOf(activeWordId);
-      const newIndex = sentenceWords.indexOf(overId);
-      setSentenceWords(arrayMove(sentenceWords, oldIndex, newIndex));
-    }
-  };
 
   const handleSubmit = () => {
     setIsSubmitted(true);
@@ -119,6 +76,22 @@ export default function SentenceBuilder({
     }
   };
 
+  const moveWordUp = (index: number) => {
+    if (index > 0) {
+      const newWords = [...sentenceWords];
+      [newWords[index - 1], newWords[index]] = [newWords[index], newWords[index - 1]];
+      setSentenceWords(newWords);
+    }
+  };
+
+  const moveWordDown = (index: number) => {
+    if (index < sentenceWords.length - 1) {
+      const newWords = [...sentenceWords];
+      [newWords[index], newWords[index + 1]] = [newWords[index + 1], newWords[index]];
+      setSentenceWords(newWords);
+    }
+  };
+
   const renderSentencePreview = () => {
     if (sentenceWords.length === 0) return null;
     
@@ -132,12 +105,7 @@ export default function SentenceBuilder({
   };
 
   return (
-    <DndContext
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-    >
-      <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-4 md:space-y-6">
+    <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-4 md:space-y-6">
         {/* Exercise Header */}
         <div className="text-center space-y-2">
           <h2 className="text-2xl font-bold text-white">{exercise.instruction}</h2>
@@ -160,45 +128,39 @@ export default function SentenceBuilder({
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-white">Build your sentence:</h3>
             <div className="text-sm text-gray-400">
-              <span className="hidden sm:inline">💡 Drag words here or click to reorder</span>
-              <span className="sm:hidden">💡 Tap words to build</span>
+              💡 Tap words to build your sentence
             </div>
           </div>
-          
-          <DropZone 
-            id="sentence-drop-zone"
-            isEmpty={sentenceWords.length === 0}
-            className="min-h-24"
-          >
-            <SortableContext items={sentenceWords} strategy={horizontalListSortingStrategy}>
-              <div className="flex flex-wrap gap-2 min-h-16 items-center justify-center">
-                {sentenceWords.length === 0 ? (
-                  <div className="text-center">
-                    <p className="text-gray-400 mb-2">🎯 Build your sentence here</p>
-                    <p className="text-sm text-gray-500">
-                      <span className="hidden sm:inline">Drag words from below or click them to add</span>
-                      <span className="sm:hidden">Tap words below to add them</span>
-                    </p>
-                  </div>
-                ) : (
-                  sentenceWords.map((wordId) => {
-                    const word = getWordData(wordId);
-                    if (!word) return null;
-                    
-                    return (
-                      <SortableWordChip
-                        key={wordId}
-                        id={wordId}
-                        word={word}
-                        onRemove={() => removeWordFromSentence(wordId)}
-                        isDragOverlay={false}
-                      />
-                    );
-                  })
-                )}
-              </div>
-            </SortableContext>
-          </DropZone>
+
+          <div className="border-2 border-dashed rounded-lg p-6 transition-all duration-200 border-gray-600 bg-gray-700 bg-opacity-20 min-h-24">
+            <div className="flex flex-wrap gap-2 min-h-16 items-center justify-center">
+              {sentenceWords.length === 0 ? (
+                <div className="text-center">
+                  <p className="text-gray-400 mb-2">🎯 Build your sentence here</p>
+                  <p className="text-sm text-gray-500">
+                    Tap words below to add them
+                  </p>
+                </div>
+              ) : (
+                sentenceWords.map((wordId, index) => {
+                  const word = getWordData(wordId);
+                  if (!word) return null;
+
+                  return (
+                    <SortableWordChip
+                      key={wordId}
+                      word={word}
+                      canMoveUp={index > 0}
+                      canMoveDown={index < sentenceWords.length - 1}
+                      onRemove={() => removeWordFromSentence(wordId)}
+                      onMoveUp={() => moveWordUp(index)}
+                      onMoveDown={() => moveWordDown(index)}
+                    />
+                  );
+                })
+              )}
+            </div>
+          </div>
 
           {renderSentencePreview()}
         </div>
@@ -208,29 +170,26 @@ export default function SentenceBuilder({
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-white">Available words:</h3>
             <div className="text-sm text-gray-400">
-              <span className="hidden sm:inline">Drag or click to add words</span>
-              <span className="sm:hidden">Tap to add words</span>
+              Tap to add words
             </div>
           </div>
-          <DropZone id="available-words" isEmpty={false} className="min-h-20">
+          <div className="border-2 border-dashed rounded-lg p-6 transition-all duration-200 border-gray-600 bg-gray-700 bg-opacity-20 min-h-20">
             <div className="flex flex-wrap gap-2 md:gap-3 justify-center">
               {availableWords.map((wordId) => {
                 const word = getWordData(wordId);
                 if (!word) return null;
-                
+
                 return (
                   <WordChip
                     key={wordId}
-                    id={wordId}
                     word={word}
-                    isDragging={activeId === wordId}
                     onClick={() => addWordToSentence(wordId)}
                     showClickHint={true}
                   />
                 );
               })}
             </div>
-          </DropZone>
+          </div>
         </div>
 
         {/* Audio Player */}
@@ -321,17 +280,5 @@ export default function SentenceBuilder({
         {/* Touch Instructions */}
         <TouchInstructions />
       </div>
-
-      {/* Drag Overlay */}
-      <DragOverlay>
-        {activeId ? (
-          <WordChip
-            id={activeId}
-            word={getWordData(activeId)!}
-            isDragging={true}
-          />
-        ) : null}
-      </DragOverlay>
-    </DndContext>
   );
 }

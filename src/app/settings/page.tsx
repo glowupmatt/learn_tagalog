@@ -7,9 +7,7 @@ export default function SettingsPage() {
   const [mounted, setMounted] = useState(false);
   const [settings, setSettings] = useState({
     audioEnabled: true,
-    gamificationMode: false,
-    preferredDifficulty: 'beginner' as 'beginner' | 'intermediate' | 'advanced',
-    dailyGoal: 15
+    preferredDifficulty: 'beginner' as 'beginner' | 'intermediate' | 'advanced'
   });
   
   // Additional local settings not stored in LocalStorageManager
@@ -135,24 +133,6 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="text-white font-medium mb-3 block">
-                  Daily Goal: {settings.dailyGoal} minutes
-                </label>
-                <input
-                  type="range"
-                  min="5"
-                  max="60"
-                  step="5"
-                  value={settings.dailyGoal}
-                  onChange={(e) => updateSetting('dailyGoal', parseInt(e.target.value))}
-                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                />
-                <div className="flex justify-between text-sm text-gray-400 mt-1">
-                  <span>5 min</span>
-                  <span>60 min</span>
-                </div>
-              </div>
 
               <div className="flex items-center justify-between">
                 <div>
@@ -181,24 +161,6 @@ export default function SettingsPage() {
               🎨 Interface
             </h2>
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <label className="text-white font-medium">Gamification Mode</label>
-                  <p className="text-sm text-gray-400">Show points, badges, and achievements</p>
-                </div>
-                <button
-                  onClick={() => updateSetting('gamificationMode', !settings.gamificationMode)}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    settings.gamificationMode ? 'bg-blue-600' : 'bg-gray-600'
-                  }`}
-                >
-                  <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      settings.gamificationMode ? 'translate-x-6' : 'translate-x-1'
-                    }`}
-                  />
-                </button>
-              </div>
 
               <div className="flex items-center justify-between">
                 <div>

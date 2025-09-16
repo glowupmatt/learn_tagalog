@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { VerbConjugation } from '@/types';
 import { playAudio } from '@/lib/audio';
-import { SpacedRepetitionManager, ReviewCard } from '@/lib/spaced-repetition';
+import { SimpleCardManager } from '@/lib/spaced-repetition';
 
 interface VerbCardProps {
   verb: VerbConjugation;
   mode?: 'study' | 'practice' | 'quiz';
-  category: string;
+  category?: string;
 }
 
 type TenseType = 'past' | 'present' | 'future' | 'command';
@@ -22,21 +22,9 @@ export default function VerbCard({ verb, mode = 'study', category }: VerbCardPro
   const [userAnswer, setUserAnswer] = useState('');
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
-  const [cardStats, setCardStats] = useState<ReviewCard | null>(null);
-  const [hint, setHint] = useState<string | null>(null);
 
   const cardId = `verb-${verb.id}`;
 
-  // Load card progress from spaced repetition system
-  useEffect(() => {
-    const cardData = SpacedRepetitionManager.getCardData(cardId);
-    setCardStats(cardData);
-    
-    if (cardData) {
-      const cardHint = SpacedRepetitionManager.getHint(cardId, 'verbs');
-      setHint(cardHint);
-    }
-  }, [cardId]);
 
   const handlePlayAudio = async (tense: TenseType) => {
     const audioUrl = verb.audioUrls?.[tense];
@@ -87,13 +75,8 @@ export default function VerbCard({ verb, mode = 'study', category }: VerbCardPro
     setIsCorrect(correct);
     setShowAnswer(true);
     
-    // Update spaced repetition data
-    const updatedCard = SpacedRepetitionManager.updateCardProgress(cardId, 'verbs', correct);
-    setCardStats(updatedCard);
-    
-    // Get new hint if available
-    const newHint = SpacedRepetitionManager.getHint(cardId, 'verbs');
-    setHint(newHint);
+    // Mark card as studied
+    SimpleCardManager.markCardAsStudied(cardId, 'verbs');
   };
 
   const resetPractice = () => {
@@ -144,7 +127,7 @@ export default function VerbCard({ verb, mode = 'study', category }: VerbCardPro
     }
   };
 
-  const colorClasses = getCategoryColor(category);
+  const colorClasses = getCategoryColor(category || verb.category);
 
   // Practice Mode
   if (mode === 'practice') {
@@ -162,14 +145,6 @@ export default function VerbCard({ verb, mode = 'study', category }: VerbCardPro
               <h3 className={`text-lg font-semibold ${colorClasses.text}`}>Verb Practice</h3>
               <div className="flex items-center space-x-2 text-xs text-gray-400">
                 <span>Attempt {attempts + 1}</span>
-                {cardStats && (
-                  <>
-                    <span>•</span>
-                    <span>Accuracy: {Math.round((cardStats.correctAttempts / Math.max(cardStats.totalAttempts, 1)) * 100)}%</span>
-                    <span>•</span>
-                    <span>Level {cardStats.difficulty}</span>
-                  </>
-                )}
               </div>
             </div>
           </div>
@@ -248,12 +223,6 @@ export default function VerbCard({ verb, mode = 'study', category }: VerbCardPro
           </div>
         </div>
 
-        {/* Hint Display */}
-        {hint && (
-          <div className="mb-4 p-3 bg-yellow-900 border border-yellow-600 rounded-lg">
-            <p className="text-sm text-yellow-200">{hint}</p>
-          </div>
-        )}
 
         {/* Input Area */}
         {!showAnswer && (

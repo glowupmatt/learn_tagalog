@@ -2,8 +2,8 @@
 
 import { Letter } from '@/types';
 import { playAudio } from '@/lib/audio';
-import { useState, useEffect } from 'react';
-import { SpacedRepetitionManager, ReviewCard } from '@/lib/spaced-repetition';
+import { useState } from 'react';
+import { SimpleCardManager } from '@/lib/spaced-repetition';
 
 interface AlphabetCardProps {
   letter: Letter;
@@ -19,21 +19,9 @@ export default function AlphabetCard({ letter, mode = 'study' }: AlphabetCardPro
   const [userAnswer, setUserAnswer] = useState('');
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attempts, setAttempts] = useState(0);
-  const [cardStats, setCardStats] = useState<ReviewCard | null>(null);
-  const [hint, setHint] = useState<string | null>(null);
 
   const cardId = `alphabet-${letter.letter.toLowerCase()}`;
 
-  // Load card progress from spaced repetition system
-  useEffect(() => {
-    const cardData = SpacedRepetitionManager.getCardData(cardId);
-    setCardStats(cardData);
-    
-    if (cardData) {
-      const cardHint = SpacedRepetitionManager.getHint(cardId, 'alphabet');
-      setHint(cardHint);
-    }
-  }, [cardId]);
 
   const handlePlayAudio = async () => {
     if (!letter.audioUrl) {
@@ -83,13 +71,8 @@ export default function AlphabetCard({ letter, mode = 'study' }: AlphabetCardPro
     setIsCorrect(correct);
     setShowAnswer(true);
     
-    // Update spaced repetition data
-    const updatedCard = SpacedRepetitionManager.updateCardProgress(cardId, 'alphabet', correct);
-    setCardStats(updatedCard);
-    
-    // Get new hint if available
-    const newHint = SpacedRepetitionManager.getHint(cardId, 'alphabet');
-    setHint(newHint);
+    // Mark card as studied
+    SimpleCardManager.markCardAsStudied(cardId, 'alphabet');
   };
 
   const resetPractice = () => {
@@ -114,14 +97,6 @@ export default function AlphabetCard({ letter, mode = 'study' }: AlphabetCardPro
               <h3 className="text-lg font-semibold text-green-300">Practice Mode</h3>
               <div className="flex items-center space-x-2 text-xs text-gray-400">
                 <span>Attempt {attempts + 1}</span>
-                {cardStats && (
-                  <>
-                    <span>•</span>
-                    <span>Accuracy: {Math.round((cardStats.correctAttempts / Math.max(cardStats.totalAttempts, 1)) * 100)}%</span>
-                    <span>•</span>
-                    <span>Level {cardStats.difficulty}</span>
-                  </>
-                )}
               </div>
             </div>
           </div>
@@ -184,12 +159,6 @@ export default function AlphabetCard({ letter, mode = 'study' }: AlphabetCardPro
           )}
         </div>
 
-        {/* Hint Display */}
-        {hint && (
-          <div className="mb-4 p-3 bg-yellow-900 border border-yellow-600 rounded-lg">
-            <p className="text-sm text-yellow-200">{hint}</p>
-          </div>
-        )}
 
         {/* Input Area */}
         {!showAnswer && (
